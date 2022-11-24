@@ -69,7 +69,11 @@ class Filmwork(TimeStampedMixin, UUIDMixin):
         MOVIE = 'movies', _('movies')
         TV_SHOW = 'tv_show', _('tv_show')
 
-    certificate = models.CharField(_('certificate'), max_length=512, blank=True)
+    certificate = models.CharField(
+        _('certificate'),
+        max_length=512,
+        blank=True
+    )
     file_path = models.FileField(
         _('file'), blank=True, null=True, upload_to='movies/')
     title = models.CharField(_('title'), max_length=255)
