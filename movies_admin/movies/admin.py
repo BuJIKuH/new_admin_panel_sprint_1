@@ -27,4 +27,3 @@ class FilmworkAdmin(admin.ModelAdmin):
         'title', 'type', 'creation_date', 'rating', 'created', 'modified')
     list_filter = ('type',)
     search_fields = ('title', 'description', 'id', 'type')
-

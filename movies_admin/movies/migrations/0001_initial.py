@@ -17,14 +17,60 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Filmwork',
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, verbose_name='Уникальный ключ')),
-                ('created', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания записи')),
-                ('modified', models.DateTimeField(auto_now=True, verbose_name='Дата изменения записи')),
-                ('title', models.CharField(max_length=255, verbose_name='Название')),
-                ('description', models.TextField(blank=True, verbose_name='Описание')),
-                ('creation_date', models.DateField(blank=True, verbose_name='Дата премьеры')),
-                ('rating', models.FloatField(blank=True, validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(100)], verbose_name='Рейтинг')),
-                ('type', models.CharField(blank=True, choices=[('movies', 'Movie'), ('tv_show', 'Tv Show')], default='movies', max_length=20, verbose_name='Тип')),
+                ('id',
+                 models.UUIDField(
+                    default=uuid.uuid4,
+                    editable=False,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='Уникальный ключ'
+                 )
+                 ),
+                ('created',
+                 models.DateTimeField(
+                    auto_now_add=True,
+                    verbose_name='Дата создания записи'
+                 )
+                 ),
+                ('modified', models.DateTimeField(
+                    auto_now=True,
+                    verbose_name='Дата изменения записи'
+                 )
+                 ),
+                ('title', models.CharField(
+                    max_length=255,
+                    verbose_name='Название')),
+                ('description',
+                 models.TextField(
+                    blank=True,
+                    verbose_name='Описание'
+                 )
+                 ),
+                ('creation_date',
+                 models.DateField(
+                    blank=True,
+                    verbose_name='Дата премьеры'
+                 )
+                 ),
+                ('rating', models.FloatField(
+                    blank=True,
+                    validators=[
+                        django.core.validators.MinValueValidator(0),
+                        django.core.validators.MaxValueValidator(100)],
+                    verbose_name='Рейтинг'
+                )
+                 ),
+                ('type',
+                 models.CharField(
+                    blank=True, choices=[
+                        ('movies', 'Movie'),
+                        ('tv_show', 'Tv Show')
+                     ],
+                    default='movies',
+                    max_length=20,
+                    verbose_name='Тип'
+                 )
+                 ),
             ],
             options={
                 'verbose_name': 'Кинопроизведение',
@@ -35,11 +81,39 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Genre',
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, verbose_name='Уникальный ключ')),
-                ('created', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания записи')),
-                ('modified', models.DateTimeField(auto_now=True, verbose_name='Дата изменения записи')),
-                ('name', models.CharField(max_length=255, verbose_name='Название')),
-                ('description', models.TextField(blank=True, verbose_name='Описание')),
+                ('id',
+                 models.UUIDField(
+                    default=uuid.uuid4,
+                    editable=False,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='Уникальный ключ'
+                 )
+                 ),
+                ('created',
+                 models.DateTimeField(
+                    auto_now_add=True,
+                    verbose_name='Дата создания записи'
+                 )
+                 ),
+                ('modified',
+                 models.DateTimeField(
+                    auto_now=True,
+                    verbose_name='Дата изменения записи'
+                 )
+                 ),
+                ('name',
+                 models.CharField(
+                    max_length=255,
+                    verbose_name='Название'
+                 )
+                 ),
+                ('description',
+                 models.TextField(
+                    blank=True,
+                    verbose_name='Описание'
+                 )
+                 ),
             ],
             options={
                 'verbose_name': 'Жанр',
@@ -50,10 +124,32 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Person',
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, verbose_name='Уникальный ключ')),
-                ('created', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания записи')),
-                ('modified', models.DateTimeField(auto_now=True, verbose_name='Дата изменения записи')),
-                ('full_name', models.CharField(max_length=150, verbose_name='Полное имя')),
+                ('id', models.UUIDField(
+                    default=uuid.uuid4,
+                    editable=False,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='Уникальный ключ'
+                )
+                 ),
+                ('created',
+                 models.DateTimeField(
+                    auto_now_add=True,
+                    verbose_name='Дата создания записи'
+                 )
+                 ),
+                ('modified',
+                 models.DateTimeField(
+                    auto_now=True,
+                    verbose_name='Дата изменения записи'
+                 )
+                 ),
+                ('full_name',
+                 models.CharField(
+                    max_length=150,
+                    verbose_name='Полное имя'
+                 )
+                 ),
             ],
             options={
                 'verbose_name': 'Человек',
@@ -64,11 +160,31 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PersonFilmwork',
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, verbose_name='Уникальный ключ')),
+                ('id',
+                 models.UUIDField(
+                    default=uuid.uuid4,
+                    editable=False,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='Уникальный ключ'
+                 )
+                 ),
                 ('role', models.TextField(null=True, verbose_name='Роль')),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('film_work', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='movies.filmwork', verbose_name='Кинопроизведение')),
-                ('person', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='movies.person', verbose_name='Человек')),
+                ('film_work',
+                 models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='movies.filmwork',
+                    verbose_name='Кинопроизведение'
+                 )
+                 ),
+                ('person',
+                 models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='movies.person',
+                    verbose_name='Человек'
+                 )
+                 ),
             ],
             options={
                 'db_table': 'content"."person_film_work',
@@ -77,10 +193,29 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GenreFilmwork',
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, verbose_name='Уникальный ключ')),
+                ('id',
+                 models.UUIDField(
+                    default=uuid.uuid4,
+                    editable=False,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='Уникальный ключ')
+                 ),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('film_work', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='movies.filmwork', verbose_name='Кинопроизведение')),
-                ('genre', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='movies.genre', verbose_name='Жанр')),
+                ('film_work',
+                 models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='movies.filmwork',
+                    verbose_name='Кинопроизведение'
+                 )
+                 ),
+                ('genre',
+                 models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='movies.genre',
+                    verbose_name='Жанр'
+                 )
+                 ),
             ],
             options={
                 'db_table': 'content"."genre_film_work',
@@ -89,11 +224,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='filmwork',
             name='genres',
-            field=models.ManyToManyField(through='movies.GenreFilmwork', to='movies.genre', verbose_name='Жанр'),
+            field=models.ManyToManyField(
+                through='movies.GenreFilmwork',
+                to='movies.genre',
+                verbose_name='Жанр'
+            ),
         ),
         migrations.AddField(
             model_name='filmwork',
             name='person',
-            field=models.ManyToManyField(through='movies.PersonFilmwork', to='movies.person', verbose_name='Человек'),
+            field=models.ManyToManyField(
+                through='movies.PersonFilmwork',
+                to='movies.person',
+                verbose_name='Человек'
+            ),
         ),
     ]
