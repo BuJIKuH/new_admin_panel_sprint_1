@@ -10,11 +10,13 @@ ALTER ROLE app SET search_path TO content,public;
     -- изменения записи.
 CREATE TABLE IF NOT EXISTS film_work (
     id uuid PRIMARY KEY,
-    title VARCHAR(30) NOT NULL,
-    description TEXT,
-    creation_date DATE,
-    rating FLOAT,
-    type TEXT not null,
+    title text NOT NULL,
+    description text,
+    creation_date date,
+    certificate text,
+    file_path text,
+    rating float,
+    type text,
     created timestamp with time zone,
     modified timestamp with time zone
 );
@@ -24,7 +26,7 @@ CREATE TABLE IF NOT EXISTS film_work (
     -- создания записи и дата изменения записи.
 CREATE TABLE IF NOT EXISTS genre (
     id uuid PRIMARY KEY,
-    name VARCHAR(20) NOT NULL,
+    name TEXT NOT NULL,
     description TEXT,
     created timestamp with time zone,
     modified timestamp with time zone
@@ -35,7 +37,7 @@ CREATE TABLE IF NOT EXISTS genre (
     --  записи и дата изменения записи.
 CREATE TABLE IF NOT EXISTS person (
     id uuid PRIMARY KEY,
-    full_name VARCHAR(40) NOT NULL,
+    full_name TEXT NOT NULL,
     created timestamp with time zone,
     modified timestamp with time zone
 );
@@ -80,12 +82,12 @@ CREATE TABLE  IF NOT EXISTS genre_film_work (
 
 -- создаем уникальный индекс для поиска по связанному объекту
 -- "Жанр"  и "Произведения" по полям (film_work_id, genre_id).
-CREATE UNIQUE INDEX genre_film_work_idx
-    ON genre_film_work(film_work_id, genre_id);
+CREATE UNIQUE INDEX IF NOT EXISTS film_work_genre
+    ON genre_film_work (film_work_id, genre_id);
 
 -- создаем уникальный индекс для поиска по связанному объекту
--- "Люди" и "Произведения" по полям (role, person_id).
-CREATE UNIQUE INDEX person_film_work_idx
-    ON person_film_work (role, person_id);
+-- "Люди" и "Произведения" по полям (role, person_id, film_work_id).
+CREATE UNIQUE INDEX IF NOT EXISTS film_work_person_role
+    ON person_film_work (role, person_id, film_work_id);
 
 
