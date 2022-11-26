@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS film_work (
     title text NOT NULL,
     description text,
     creation_date date,
-    certificate text,
     file_path text,
     rating float,
     type text,
@@ -49,8 +48,8 @@ CREATE TABLE IF NOT EXISTS person (
     -- "Произведения", роль, дата создания записи.
 CREATE TABLE IF NOT EXISTS person_film_work (
     id uuid PRIMARY KEY,
-    person_id uuid NOT NULL,
     film_work_id uuid NOT NULL,
+    person_id uuid NOT NULL,
     FOREIGN KEY (film_work_id)
         REFERENCES film_work (id)
         ON DELETE CASCADE ON UPDATE CASCADE,
@@ -68,8 +67,8 @@ CREATE TABLE IF NOT EXISTS person_film_work (
     -- "Произведения", дата создания записи.
 CREATE TABLE  IF NOT EXISTS genre_film_work (
 	id uuid PRIMARY KEY,
-	genre_id uuid NOT NULL,
     film_work_id uuid NOT NULL,
+    genre_id uuid NOT NULL,
 	FOREIGN KEY (genre_id)
         REFERENCES genre(id)
         ON DELETE CASCADE ON UPDATE CASCADE,

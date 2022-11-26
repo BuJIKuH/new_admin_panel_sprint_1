@@ -1,13 +1,13 @@
 from django.contrib import admin
-from .models import Genre, GenreFilmwork, Filmwork, PersonFilmwork, Person
+from .models import Genre, GenreFilmWork, FilmWork, PersonFilmWork, Person
 
 
 class GenreFilmworkInline(admin.TabularInline):
-    model = GenreFilmwork
+    model = GenreFilmWork
 
 
 class PersonFilmworkInline(admin.TabularInline):
-    model = PersonFilmwork
+    model = PersonFilmWork
 
 
 @admin.register(Genre)
@@ -20,7 +20,7 @@ class PersonAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Filmwork)
+@admin.register(FilmWork)
 class FilmworkAdmin(admin.ModelAdmin):
     inlines = (GenreFilmworkInline, PersonFilmworkInline)
     list_display = (

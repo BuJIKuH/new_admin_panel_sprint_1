@@ -53,8 +53,8 @@ class SQLiteExtractor:
         if self.verbose:
             log.info('Загружено из %s %s пачек', self.table_name, count)
 
-        def __del__(self):
-            self.cursor.close()
+    def __del__(self):
+        self.cursor.close()
 
 
 class PostgresSaver(SQLiteExtractor):
@@ -63,11 +63,12 @@ class PostgresSaver(SQLiteExtractor):
 
         count = 0
         for pack in data:
-            pack_values = '\n'.join(
-                [obj.get_values_from_table for obj in pack]
-            )
+            objects = []
+            for subject in pack:
+                objects.append(subject.get_values_from_table)
+            pack_values = '\n'.join(objects)
             with io.StringIO(pack_values) as p:
-                self.cursor.copy_from(p, table=self.table_name, null='None',
+                self.cursor.copy_from(p, table=self.table_name, null=None,
                                       size=PACK_SIZE)
             count += 1
 
@@ -100,13 +101,11 @@ if __name__ == '__main__':
         'dbname': os.environ.get('DB_NAME'),
         'user': os.environ.get('DB_USER'),
         'password': os.environ.get('DB_PASSWORD'),
-        'host': os.environ.get('DB_HOST', '127.0.0.1'),
-        'port': os.environ.get('DB_PORT', 5432)
+        'host': os.environ.get('DB_HOST'),
+        'port': os.environ.get('DB_PORT'),
+        'options': '-c search_path=content'
     }
 
     with sqlite3.connect('db.sqlite') as sqlite_conn, \
             psycopg2.connect(**dsl, cursor_factory=DictCursor) as pg_conn:
         load_from_sqlite(sqlite_conn, pg_conn)
-
-    sqlite_conn.close()
-    pg_conn.close()
