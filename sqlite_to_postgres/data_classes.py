@@ -20,7 +20,7 @@ class FilmWork(CurrentTable):
         'id', 'title', 'description', 'creation_date',
         'file_path', 'rating', 'type', 'created_at', 'updated_at'
     )
-    id: uuid.uuid4()
+    id: uuid.UUID
     title: str
     description: str
     creation_date: datetime.datetime
@@ -36,7 +36,7 @@ class Genre(CurrentTable):
     __slots__ = (
         'id', 'name', 'description', 'created_at', 'updated_at'
     )
-    id: uuid.uuid4()
+    id: uuid.UUID
     name: str
     description: str
     created_at: datetime.datetime
@@ -48,7 +48,7 @@ class Person(CurrentTable):
     __slots__ = (
         'id', 'full_name', 'created_at', 'updated_at'
     )
-    id: uuid.uuid4()
+    id: uuid.UUID
     full_name: str
     created_at: datetime.datetime
     updated_at: datetime.datetime
@@ -59,9 +59,9 @@ class GenreFilmWork(CurrentTable):
     __slots__ = (
         'id', 'film_work_id', 'genre_id', 'created_at'
     )
-    id: uuid.uuid4()
-    film_work_id: uuid.uuid4()
-    genre_id: uuid.uuid4()
+    id: uuid.UUID
+    film_work_id: uuid.UUID
+    genre_id: uuid.UUID
     created_at: datetime.datetime
 
 
@@ -70,8 +70,8 @@ class PersonFilmWork(CurrentTable):
     __slots__ = (
         'id', 'film_work_id', 'person_id', 'role', 'created_at'
     )
-    id: uuid.uuid4()
-    film_work_id: uuid.uuid4()
-    person_id: uuid.uuid4()
+    id: uuid.UUID
+    film_work_id: uuid.UUID
+    person_id: uuid.UUID
     role: str
     created_at: datetime.datetime
