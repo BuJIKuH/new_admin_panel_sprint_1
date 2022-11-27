@@ -30,7 +30,7 @@ class TimeStampedMixin(models.Model):
 class Genre(TimeStampedMixin, UUIDMixin):
     """Таблица Жанр"""
     name = models.CharField(_('name'), max_length=255)
-    description = models.TextField(_('description'), blank=True, null=True)
+    description = models.TextField(_('description'), blank=True)
 
     def __str__(self):
         return self.name
@@ -50,7 +50,7 @@ class Gender(models.TextChoices):
 class Person(TimeStampedMixin, UUIDMixin):
     """Таблица о людях принявших участие в кинопроизведении"""
     full_name = models.CharField(_('full name'), max_length=150)
-    gender = models.TextField(_('gender'), choices=Gender.choices, null=True)
+    gender = models.TextField(_('gender'), choices=Gender.choices)
 
     def __str__(self):
         return self.full_name
@@ -70,8 +70,8 @@ class FilmWork(TimeStampedMixin, UUIDMixin):
         TV_SHOW = 'tv_show', _('tv_show')
 
     title = models.CharField(_('title'), max_length=255)
-    description = models.TextField(_('description'), blank=True, null=True)
-    creation_date = models.DateField(_('creation date'), blank=True, null=True)
+    description = models.TextField(_('description'), blank=True)
+    creation_date = models.DateField(_('creation date'), blank=True)
     file_path = models.FileField(
         _('file'), blank=True, null=True, upload_to='movies/')
     rating = models.FloatField(
@@ -84,7 +84,7 @@ class FilmWork(TimeStampedMixin, UUIDMixin):
         default=TypeChoices.MOVIE
     )
     certificate = models.CharField(
-        _('certificate'), max_length=512, blank=True, null=True
+        _('certificate'), max_length=512, blank=True
     )
     genres = models.ManyToManyField(
         Genre, through='GenreFilmWork', verbose_name=_('genres'))
@@ -109,6 +109,7 @@ class GenreFilmWork(UUIDMixin):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        unique_together = ('genre', 'film_work')
         db_table = "content\".\"genre_film_work"
 
 
@@ -118,8 +119,9 @@ class PersonFilmWork(UUIDMixin):
         'FilmWork', on_delete=models.CASCADE, verbose_name=_('film work'))
     person = models.ForeignKey(
         'Person', on_delete=models.CASCADE, verbose_name=_('person'))
-    role = models.TextField(_('role'), null=True, blank=True)
+    role = models.TextField(_('role'), null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        unique_together = ('person', 'film_work')
         db_table = "content\".\"person_film_work"
