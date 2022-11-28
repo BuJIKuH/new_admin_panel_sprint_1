@@ -68,7 +68,7 @@ class PostgresSaver(SQLiteExtractor):
                 objects.append(subject.get_values_from_table)
             pack_values = '\n'.join(objects)
             with io.StringIO(pack_values) as p:
-                self.cursor.copy_from(p, table=self.table_name, null=None,
+                self.cursor.copy_from(p, table=self.table_name, null='None',
                                       size=PACK_SIZE)
             count += 1
 

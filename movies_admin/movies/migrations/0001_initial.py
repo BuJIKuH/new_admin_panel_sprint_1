@@ -20,15 +20,17 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, verbose_name='unique key')),
                 ('title', models.CharField(max_length=255, verbose_name='title')),
-                ('description', models.TextField(blank=True, null=True,
-                                                 verbose_name='description')),
-                ('creation_date', models.DateField(blank=True, null=True,
+                ('description', models.TextField(
+                    null=True, verbose_name='description')),
+                ('creation_date', models.DateField(null=True,
                  verbose_name='creation date')),
-                ('file_path', models.FileField(blank=True, null=True, upload_to='movies/', verbose_name='file')),
-                ('rating', models.FloatField(blank=True, null=True, validators=[
+                ('file_path', models.FileField(null=True, upload_to='movies/',
+                verbose_name='file')),
+                ('rating', models.FloatField(null=True, validators=[
                     django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(100)], verbose_name='rating')),
-                ('type', models.CharField(blank=True, choices=[(
-                'movies', 'movies'), ('tv_show', 'tv_show')], default='movies', max_length=20, verbose_name='type')),
+                ('type', models.CharField(choices=[(
+                'movies', 'movies'), ('tv_show', 'tv_show')],
+                    default='movies', max_length=20, verbose_name='type')),
                 ('created', models.DateTimeField(auto_now_add=True,
                                                  verbose_name='created')),
                 ('modified',
@@ -46,8 +48,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, verbose_name='unique key')),
                 ('name', models.CharField(max_length=255, verbose_name='name')),
-                ('description', models.TextField(blank=True, null=True,
-                                                 verbose_name='description')),
+                ('description', models.TextField(
+                    null=True, verbose_name='description')),
                 ('created', models.DateTimeField(auto_now_add=True,
                                                  verbose_name='created')),
                 ('modified',
@@ -81,12 +83,12 @@ class Migration(migrations.Migration):
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, verbose_name='unique key')),
                 ('film_work', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='movies.filmwork', verbose_name='film work')),
                 ('person', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='movies.person', verbose_name='person')),
-                ('role', models.TextField(null=True, blank=True,
-                 verbose_name='role')),
+                ('role', models.TextField(verbose_name='role')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
             ],
             options={
                 'db_table': 'content"."person_film_work',
+                'unique_together': {('role', 'person', 'film_work')},
             },
         ),
         migrations.CreateModel(
@@ -99,6 +101,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'content"."genre_film_work',
+                'unique_together': {('genre', 'film_work')},
             },
         ),
         migrations.AddField(

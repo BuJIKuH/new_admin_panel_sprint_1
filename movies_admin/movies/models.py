@@ -30,7 +30,8 @@ class TimeStampedMixin(models.Model):
 class Genre(TimeStampedMixin, UUIDMixin):
     """Таблица Жанр"""
     name = models.CharField(_('name'), max_length=255)
-    description = models.TextField(_('description'), blank=True)
+    description = models.TextField(_('description'), blank=True,
+                                   default='Описание')
 
     def __str__(self):
         return self.name
@@ -41,7 +42,7 @@ class Genre(TimeStampedMixin, UUIDMixin):
         verbose_name_plural = _('genres')
 
 
-class Gender(models.TextChoices):
+class GenderChoices(models.TextChoices):
     """Половой признак"""
     MALE = 'male', _('male')
     FEMALE = 'female', _('female')
@@ -50,7 +51,8 @@ class Gender(models.TextChoices):
 class Person(TimeStampedMixin, UUIDMixin):
     """Таблица о людях принявших участие в кинопроизведении"""
     full_name = models.CharField(_('full name'), max_length=150)
-    gender = models.TextField(_('gender'), choices=Gender.choices)
+    gender = models.TextField(_('gender'), choices=GenderChoices.choices,
+                              default=GenderChoices.MALE)
 
     def __str__(self):
         return self.full_name
@@ -70,13 +72,15 @@ class FilmWork(TimeStampedMixin, UUIDMixin):
         TV_SHOW = 'tv_show', _('tv_show')
 
     title = models.CharField(_('title'), max_length=255)
-    description = models.TextField(_('description'), blank=True)
-    creation_date = models.DateField(_('creation date'), blank=True)
+    description = models.TextField(_('description'), blank=True,
+                                   default='Описание')
+    creation_date = models.DateField(_('creation date'), blank=True,
+                                     default='2000-01-01')
     file_path = models.FileField(
-        _('file'), blank=True, null=True, upload_to='movies/')
+        _('file'), blank=True, default="path/to/you/dir", upload_to='movies/')
     rating = models.FloatField(
         _('rating'),
-        blank=True, null=True,
+        blank=True, default=0.0,
         validators=[MinValueValidator(0), MaxValueValidator(100)]
     )
     type = models.CharField(
@@ -123,5 +127,5 @@ class PersonFilmWork(UUIDMixin):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('person', 'film_work')
+        unique_together = ('role', 'person', 'film_work')
         db_table = "content\".\"person_film_work"
