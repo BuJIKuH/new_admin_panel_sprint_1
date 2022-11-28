@@ -77,14 +77,14 @@ class FilmWork(TimeStampedMixin, UUIDMixin):
     creation_date = models.DateField(_('creation date'), blank=True,
                                      default='2000-01-01')
     file_path = models.FileField(
-        _('file'), blank=True, default="path/to/you/dir", upload_to='movies/')
+        _('file'), blank=True, null=True, upload_to='movies/')
     rating = models.FloatField(
         _('rating'),
         blank=True, default=0.0,
         validators=[MinValueValidator(0), MaxValueValidator(100)]
     )
     type = models.CharField(
-        _('type'), max_length=20, blank=True, choices=TypeChoices.choices,
+        _('type'), max_length=20, choices=TypeChoices.choices,
         default=TypeChoices.MOVIE
     )
     certificate = models.CharField(
