@@ -119,11 +119,19 @@ class GenreFilmWork(UUIDMixin):
 
 class PersonFilmWork(UUIDMixin):
     """Дополнительная таблица Людей к Кинопроизведениям"""
+
+    class RoleChoices(models.TextChoices):
+        """Выбираем роль"""
+        ACTOR = 'actor', _('actor')
+        DIRECTOR = 'director', _('director')
+        SCREENWRITER = 'screenwriter', _('screenwriter')
+
     film_work = models.ForeignKey(
         'FilmWork', on_delete=models.CASCADE, verbose_name=_('film work'))
     person = models.ForeignKey(
         'Person', on_delete=models.CASCADE, verbose_name=_('person'))
-    role = models.TextField(_('role'), null=True)
+    role = models.TextField(_('role'), choices=RoleChoices.choices,
+                            default=RoleChoices.ACTOR)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

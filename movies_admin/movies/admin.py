@@ -2,11 +2,11 @@ from django.contrib import admin
 from .models import Genre, GenreFilmWork, FilmWork, PersonFilmWork, Person
 
 
-class GenreFilmworkInline(admin.TabularInline):
+class GenreFilmWorkInline(admin.TabularInline):
     model = GenreFilmWork
 
 
-class PersonFilmworkInline(admin.TabularInline):
+class PersonFilmWorkInline(admin.TabularInline):
     model = PersonFilmWork
 
 
@@ -21,8 +21,8 @@ class PersonAdmin(admin.ModelAdmin):
 
 
 @admin.register(FilmWork)
-class FilmworkAdmin(admin.ModelAdmin):
-    inlines = (GenreFilmworkInline, PersonFilmworkInline)
+class FilmWorkAdmin(admin.ModelAdmin):
+    inlines = (GenreFilmWorkInline, PersonFilmWorkInline)
     list_display = (
         'title', 'type', 'creation_date', 'rating')
     list_filter = ('type',)
